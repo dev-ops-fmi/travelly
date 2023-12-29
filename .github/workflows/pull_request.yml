@@ -5,6 +5,26 @@ on:
     branches:
       - '*'
 
+permissions:
+  read:
+    - actions
+    - checks
+    - contents
+    - pull-requests
+  write:
+    - checks
+  none:
+    - deployments
+    - id-token
+    - issues
+    - discussions
+    - packages
+    - pages
+    - repository-projects
+    - security-events
+    - statuses
+
+
 jobs:
   build:
     runs-on: ubuntu-latest
