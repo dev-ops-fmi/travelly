@@ -1,7 +1,6 @@
 package com.sofia.uni.fmi.travelly.service;
 
 import com.sofia.uni.fmi.travelly.dto.TripCreateDto;
-import com.sofia.uni.fmi.travelly.dto.TripDto;
 import com.sofia.uni.fmi.travelly.exception.ResourceNotFoundException;
 import com.sofia.uni.fmi.travelly.mapper.UserMapper;
 import com.sofia.uni.fmi.travelly.model.Trip;
@@ -11,7 +10,6 @@ import com.sofia.uni.fmi.travelly.repository.TripRepository;
 import com.sofia.uni.fmi.travelly.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -40,6 +38,7 @@ public class UserService {
 
         return null;
     }
+
     public Long addUser(User user) {
         User savedUser = userRepository.save(user);
 
@@ -58,7 +57,7 @@ public class UserService {
 
     public List<Trip> getTripsByUserId(Long userId) {
         Optional<User> userOptional = userRepository.findById(userId);
-        if(!userOptional.isPresent()) {
+        if (!userOptional.isPresent()) {
             throw new ResourceNotFoundException("No user present");
         }
 
@@ -67,7 +66,7 @@ public class UserService {
 
     public Long addTrip(Long userId, TripCreateDto tripCreateDto) {
         Optional<User> userOptional = userRepository.findById(userId);
-        if(!userOptional.isPresent()) {
+        if (!userOptional.isPresent()) {
             throw new ResourceNotFoundException("No user present");
         }
 

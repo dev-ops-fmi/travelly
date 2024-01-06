@@ -10,13 +10,18 @@ import com.sofia.uni.fmi.travelly.repository.ActivityRepository;
 import com.sofia.uni.fmi.travelly.repository.ItineraryRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
 public class ActivityService {
+
+    private static final LocalDateTime COMPUTER_TIME_START = LocalDateTime.of(1970, 01, 01, 00, 00, 00);
     private ActivityRepository activityRepository;
     private ItineraryRepository itineraryRepository;
     private ActivityMapper activityMapper;
@@ -36,7 +41,6 @@ public class ActivityService {
     public List<Activity> getActivitiesByItineraryId(Long itineraryId) {
         return activityRepository.findAllByItinerary(itineraryRepository.findById(itineraryId).get());
     }
-
 
     public List<Long> addActivities(List<ActivityCreateUpdateDto> activityCreateUpdateDtoList, Long itineraryId) {
         List<Long> savedActivitiesIds = new ArrayList<>();
@@ -91,16 +95,7 @@ public class ActivityService {
             maxStartTime = startTime;
         }
 
-        LocalDateTime minEndTime;
-
-        if (trip.getEndDate().isAfter(endTime)
-                && !endTime.isEqual(
-                LocalDateTime.of(1970, 01, 01, 00, 00, 00))) {
-            minEndTime = endTime;
-        } else {
-            minEndTime = trip.getEndDate();
-        }
-
+        LocalDateTime minEndTime = getMinEndTime(trip, endTime);
         Set<Activity> recommendedActivities = new HashSet<>();
         for (String interest : interests) {
             List<Activity> currentRecommendedActivities =
@@ -115,6 +110,15 @@ public class ActivityService {
         return recommendedActivities
                 .stream()
                 .collect(Collectors.toList());
+    }
+
+    private LocalDateTime getMinEndTime(Trip trip, LocalDateTime endTime) {
+        if (trip.getEndDate().isAfter(endTime)
+            && !endTime.isEqual(COMPUTER_TIME_START)) {
+            return endTime;
+        } else {
+            return trip.getEndDate();
+        }
     }
 }
 
