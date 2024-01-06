@@ -13,16 +13,6 @@ permissions:
     - pull-requests
   write:
     - checks
-  none:
-    - deployments
-    - id-token
-    - issues
-    - discussions
-    - packages
-    - pages
-    - repository-projects
-    - security-events
-    - statuses
 
 
 jobs:
