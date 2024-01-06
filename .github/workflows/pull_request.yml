@@ -32,6 +32,6 @@ jobs:
         run: mvn checkstyle:check
 
       - name: SonarQube Scan
-        uses: sonarsource/sonarcloud-github-action@master
+        run: mvn clean verify sonar:sonar
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
