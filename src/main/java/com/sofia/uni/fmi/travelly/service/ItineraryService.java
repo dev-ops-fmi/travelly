@@ -1,7 +1,6 @@
 package com.sofia.uni.fmi.travelly.service;
 
 import com.sofia.uni.fmi.travelly.dto.ItineraryCreateUpdateDto;
-import com.sofia.uni.fmi.travelly.dto.ItineraryDto;
 import com.sofia.uni.fmi.travelly.mapper.ItineraryMapper;
 import com.sofia.uni.fmi.travelly.model.Itinerary;
 import com.sofia.uni.fmi.travelly.model.Trip;
@@ -9,7 +8,6 @@ import com.sofia.uni.fmi.travelly.repository.ItineraryRepository;
 import com.sofia.uni.fmi.travelly.repository.TripRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 
 @Service
@@ -58,6 +56,7 @@ public class ItineraryService {
     public Itinerary getItineraryById(Long itineraryId) {
         return itineraryRepository.findById(itineraryId).get();
     }
+
     public void deleteItinerary(Long itineraryId) {
         itineraryRepository.deleteById(itineraryId);
     }
