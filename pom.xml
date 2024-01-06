@@ -55,6 +55,7 @@
 
 	</dependencies>
 
+
 	<build>
 		<plugins>
 			<plugin>
@@ -85,6 +86,11 @@
 				<configuration>
 					<configLocation>https://raw.githubusercontent.com/fmi/java-course/master/docs/02-code-analysis-tools/checkstyle/checkstyle.xml</configLocation>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.sonarsource.scanner.maven</groupId>
+				<artifactId>sonar-maven-plugin</artifactId>
+				<version>3.10.0.2594</version>
 			</plugin>
 		</plugins>
 	</build>
