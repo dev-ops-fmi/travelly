@@ -1,6 +1,16 @@
 package com.sofia.uni.fmi.travelly.controller;
 
-import com.sofia.uni.fmi.travelly.dto.*;
+import com.sofia.uni.fmi.travelly.dto.AccommodationCreateUpdateDto;
+import com.sofia.uni.fmi.travelly.dto.AccommodationDto;
+import com.sofia.uni.fmi.travelly.dto.AccommodationMapDto;
+import com.sofia.uni.fmi.travelly.dto.ActivityCreateUpdateDto;
+import com.sofia.uni.fmi.travelly.dto.ActivityDto;
+import com.sofia.uni.fmi.travelly.dto.ActivityMapDto;
+import com.sofia.uni.fmi.travelly.dto.ItineraryCreateUpdateDto;
+import com.sofia.uni.fmi.travelly.dto.ItineraryDto;
+import com.sofia.uni.fmi.travelly.dto.TransportationOptionCreateUpdateDto;
+import com.sofia.uni.fmi.travelly.dto.TransportationOptionDto;
+import com.sofia.uni.fmi.travelly.dto.TransportationOptionMapDto;
 import com.sofia.uni.fmi.travelly.mapper.AccommodationMapper;
 import com.sofia.uni.fmi.travelly.mapper.ActivityMapper;
 import com.sofia.uni.fmi.travelly.mapper.ItineraryMapper;
@@ -10,8 +20,14 @@ import com.sofia.uni.fmi.travelly.service.AccommodationService;
 import com.sofia.uni.fmi.travelly.service.ActivityService;
 import com.sofia.uni.fmi.travelly.service.ItineraryService;
 import com.sofia.uni.fmi.travelly.service.TransportationOptionService;
-import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
@@ -149,7 +165,8 @@ public class ItineraryController {
     public List<Long> addTransportationOption(
             @PathVariable Long itineraryId,
             @RequestBody List<TransportationOptionCreateUpdateDto> transportationOptionCreateUpdateDtoList) {
-        return transportationOptionService.addTransportationOption(transportationOptionCreateUpdateDtoList, itineraryId);
+        return transportationOptionService
+            .addTransportationOption(transportationOptionCreateUpdateDtoList, itineraryId);
     }
 
     @DeleteMapping("{itineraryId}/transportationOptions")

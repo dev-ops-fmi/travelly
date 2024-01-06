@@ -1,6 +1,8 @@
 package com.sofia.uni.fmi.travelly.repository;
 
-import com.sofia.uni.fmi.travelly.model.*;
+import com.sofia.uni.fmi.travelly.model.Itinerary;
+import com.sofia.uni.fmi.travelly.model.TransportationOption;
+import com.sofia.uni.fmi.travelly.model.TransportationOptionType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
