@@ -3,13 +3,16 @@
 
 ## _The Best Travel App, Ever..._
 
-Welcome to the Travelly project! This repository contains a Java Spring Maven project for a travel management application.
+Welcome to the Travelly project!
+This repository contains a Java Spring Maven project
+for a travel management application.
 
 ## Link to front end: https://github.com/panayot-marinov/travelly-frontend
 
 ## Features
 
-##### Trip Planning Interface
+### Trip Planning Interface
+
 - Enable users to input trip details, such as destination, travel dates,
 and preferences (e.g., budget, interests)
 - Offer an interactive map that allows users to create and visualize itineraries
@@ -17,19 +20,22 @@ by adding activities, accommodations, and transportation options
 - Provide a list of recommended activities, accommodations, and transportation 
 options based on user preferences, budget, and travel dates
 
-##### Itinerary Builder and Timeline View
-- Allow users to create and edit itineraries by adding, removing, or rearranging activities,
-accommodations, and transportation options
+### Itinerary Builder and Timeline View
+
+- Allow users to create and edit itineraries by adding, removing,
+or rearranging activities, accommodations, and transportation options
 - Offer a timeline view to visualize the trip itinerary and
 ensure there are no scheduling conflicts
 
-##### Packing List Generator
+### Packing List Generator
+
 - Provide a customizable packing list generator that takes into account 
 the user's destination, travel dates, and planned activities
 - Offer the ability to add, remove, or edit items on the packing list
 - Enable users to mark items as packed and track their packing progress
 
 ## Table of Contents
+
 - [Prerequisites](#prerequisites)
 - [Getting Started](#getting-started)
   - [Clone the Repository](#clone-the-repository)
@@ -86,7 +92,6 @@ java -jar target/travelly-*.jar
 
 ###### The application should now be accessible at http://localhost:8080.
 
-
 ### Open Swagger UI
 
 ```sh
@@ -96,8 +101,8 @@ Click here: http://localhost:8080/swagger-ui-travelly.html
 ### Exploring the API
 
 On the Swagger UI page, you'll see a list of available APIs and their endpoints.
-Click on an endpoint to view detailed information about the request and response,
-including request parameters, response schemas, and example requests.
+Click on an endpoint to view detailed information about the request and response
+(including request parameters, response schemas, and example requests)
 
 ### API Endpoints
 
@@ -255,19 +260,16 @@ PATCH
 /accommodation/{accommodationId}
 ```
 
-
 ### Making API Requests
 
 To test an API endpoint, click the "Try it out" button.
 Fill in any required parameters, headers, and request body (if applicable).
 Click the "Execute" button to see the response.
 
-
 ### Authentication (If Applicable)
 
-If the APIs require authentication, provide the necessary authentication details 
-using the Swagger UI interface before making requests.
-
+If the APIs require authentication, provide the necessary authentication
+details using the Swagger UI interface before making requests.
 
 ## Contributing
 
