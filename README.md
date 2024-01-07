@@ -1,4 +1,6 @@
+
 # Travelly Project
+
 ## _The Best Travel App, Ever..._
 
 Welcome to the Travelly project! This repository contains a Java Spring Maven project for a travel management application.
@@ -7,17 +9,23 @@ Welcome to the Travelly project! This repository contains a Java Spring Maven pr
 
 ## Features
 
-##### Trip Planning Interface:
-- Enable users to input trip details, such as destination, travel dates, and preferences (e.g., budget, interests)
-- Offer an interactive map that allows users to create and visualize itineraries by adding activities, accommodations, and transportation options
-- Provide a list of recommended activities, accommodations, and transportation options based on user preferences, budget, and travel dates
+##### Trip Planning Interface
+- Enable users to input trip details, such as destination, travel dates,
+and preferences (e.g., budget, interests)
+- Offer an interactive map that allows users to create and visualize itineraries
+by adding activities, accommodations, and transportation options
+- Provide a list of recommended activities, accommodations, and transportation 
+options based on user preferences, budget, and travel dates
 
-##### Itinerary Builder and Timeline View:
-- Allow users to create and edit itineraries by adding, removing, or rearranging activities, accommodations, and transportation options
-- Offer a timeline view to visualize the trip itinerary and ensure there are no scheduling conflicts
+##### Itinerary Builder and Timeline View
+- Allow users to create and edit itineraries by adding, removing, or rearranging activities,
+accommodations, and transportation options
+- Offer a timeline view to visualize the trip itinerary and
+ensure there are no scheduling conflicts
 
-##### Packing List Generator:
-- Provide a customizable packing list generator that takes into account the user's destination, travel dates, and planned activities
+##### Packing List Generator
+- Provide a customizable packing list generator that takes into account 
+the user's destination, travel dates, and planned activities
 - Offer the ability to add, remove, or edit items on the packing list
 - Enable users to mark items as packed and track their packing progress
 
@@ -51,7 +59,8 @@ cd travelly
 
 ### Configure the Database
 
-Create a PostgreSQL database named `travelly_db`. Update the database configuration in `src/main/resources/application.properties`:
+Create a PostgreSQL database named `travelly_db`.
+Update the database configuration in `src/main/resources/application.properties`:
 
 ```sh
 spring.datasource.url=jdbc:postgresql://localhost:5432/travelly_db
@@ -79,17 +88,21 @@ java -jar target/travelly-*.jar
 
 
 ### Open Swagger UI
+
 ```sh
-http://localhost:8080/swagger-ui-travelly.html
+Click here: http://localhost:8080/swagger-ui-travelly.html
 ```
 
 ### Exploring the API
+
 On the Swagger UI page, you'll see a list of available APIs and their endpoints.
-Click on an endpoint to view detailed information about the request and response, including request parameters, response schemas, and example requests.
+Click on an endpoint to view detailed information about the request and response,
+including request parameters, response schemas, and example requests.
 
 ### API Endpoints
 
 ### User controller
+
 ```bash
 GET
 /users/{userId}/trips
@@ -114,6 +127,7 @@ DELETE
 ```
 
 ### Trip controller
+
 ```bash
 GET
 /trips/{tripId}/itineraries
@@ -153,6 +167,7 @@ GET
 ```
 
 ### Itinerary controller
+
 ```bash
 GET
 /itineraries/{itineraryId}/transportationOptions
@@ -201,6 +216,7 @@ GET
 ```
 
 ### Transportation option controller
+
 ```bash
 DELETE
 /transportationOption/{transportationOptionId}
@@ -210,6 +226,7 @@ PATCH
 ```
 
 ### Item controller
+
 ```bash
 DELETE
 /items/{itemId}
@@ -219,6 +236,7 @@ PATCH
 ```
 
 ### Activity controller
+
 ```bash
 DELETE
 /activities/{activityId}
@@ -228,6 +246,7 @@ PATCH
 ```
 
 ### Accommodation controller
+
 ```bash
 DELETE
 /accommodation/{accommodationId}
@@ -238,17 +257,23 @@ PATCH
 
 
 ### Making API Requests
+
 To test an API endpoint, click the "Try it out" button.
 Fill in any required parameters, headers, and request body (if applicable).
 Click the "Execute" button to see the response.
 
 
 ### Authentication (If Applicable)
-If the APIs require authentication, provide the necessary authentication details using the Swagger UI interface before making requests.
+
+If the APIs require authentication, provide the necessary authentication details 
+using the Swagger UI interface before making requests.
 
 
 ## Contributing
-Contributions are welcome! If you find any issues or have improvements to suggest, please open an issue or create a pull request.
+
+Contributions are welcome! If you find any issues or have improvements to suggest,
+please open an issue or create a pull request.
 
 ## License
+
 This project is licensed under the [MIT License](https://opensource.org/license/mit/).
