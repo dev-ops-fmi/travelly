@@ -2,28 +2,24 @@
 ## _The Best Travel App, Ever..._
 
 Welcome to the Travelly project! This repository contains a Java Spring Maven project for a travel management application.
+
 ## Link to front end: https://github.com/panayot-marinov/travelly-frontend
 
 ## Features
 
 ##### Trip Planning Interface:
-- Enable users to input trip details, such as destination, travel dates, and preferences
-(e.g., budget, interests)
-- Offer an interactive map that allows users to create and visualize itineraries by
-adding activities, accommodations, and transportation options
-- Provide a list of recommended activities, accommodations, and transportation
-options based on user preferences, budget, and travel dates
+- Enable users to input trip details, such as destination, travel dates, and preferences (e.g., budget, interests)
+- Offer an interactive map that allows users to create and visualize itineraries by adding activities, accommodations, and transportation options
+- Provide a list of recommended activities, accommodations, and transportation options based on user preferences, budget, and travel dates
+
 ##### Itinerary Builder and Timeline View:
--  Allow users to create and edit itineraries by adding, removing, or rearranging
-activities, accommodations, and transportation options
-- Offer a timeline view to visualize the trip itinerary and ensure there are no
-scheduling conflicts
+- Allow users to create and edit itineraries by adding, removing, or rearranging activities, accommodations, and transportation options
+- Offer a timeline view to visualize the trip itinerary and ensure there are no scheduling conflicts
+
 ##### Packing List Generator:
-- Provide a customizable packing list generator that takes into account the user's
-destination, travel dates, and planned activities
+- Provide a customizable packing list generator that takes into account the user's destination, travel dates, and planned activities
 - Offer the ability to add, remove, or edit items on the packing list
 - Enable users to mark items as packed and track their packing progress
-
 
 ## Table of Contents
 - [Prerequisites](#prerequisites)
@@ -46,8 +42,6 @@ Before you begin, ensure you have the following installed:
 
 ## Getting Started
 
-Follow these steps to set up and run the project locally:
-
 ### Clone the Repository
 
 ```bash
@@ -57,8 +51,7 @@ cd travelly
 
 ### Configure the Database
 
-Create a PostgreSQL database named travelly_db. 
-Update the database configuration in src/main/resources/application.properties:
+Create a PostgreSQL database named `travelly_db`. Update the database configuration in `src/main/resources/application.properties`:
 
 ```sh
 spring.datasource.url=jdbc:postgresql://localhost:5432/travelly_db
@@ -66,18 +59,18 @@ spring.datasource.username=your_username
 spring.datasource.password=your_password
 ```
 
-
-
 ### Build the Project
+
 Navigate to the project root directory and build the application using Maven:
 
 ```sh
 mvn clean package
 ```
 
-
 ### Run the Application
+
 Once the project is built, you can run the application:
+
 ```sh
 java -jar target/travelly-*.jar
 ```
