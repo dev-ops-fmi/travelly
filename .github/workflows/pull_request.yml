@@ -137,4 +137,4 @@ jobs:
           node-version: '16' # run on 16 as version 12 is deprecated
 
       - name: Snyk Monitor
-        run: cd src/ && snyk auth ${{ secrets.SNYK_TOKEN }} && snyk test --severity-threshold=high
+        run: snyk auth ${{ secrets.SNYK_TOKEN }} && snyk test --severity-threshold=high
