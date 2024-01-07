@@ -7,7 +7,7 @@ Welcome to the Travelly project!
 This repository contains a Java Spring Maven project
 for a travel management application.
 
-## Link to front end: https://github.com/panayot-marinov/travelly-frontend
+## [Link to frontend](https://github.com/panayot-marinov/travelly-frontend)
 
 ## Features
 
@@ -17,7 +17,7 @@ for a travel management application.
 and preferences (e.g., budget, interests)
 - Offer an interactive map that allows users to create and visualize itineraries
 by adding activities, accommodations, and transportation options
-- Provide a list of recommended activities, accommodations, and transportation 
+- Provide a list of recommended activities, accommodations, and transportation
 options based on user preferences, budget, and travel dates
 
 ### Itinerary Builder and Timeline View
@@ -29,7 +29,7 @@ ensure there are no scheduling conflicts
 
 ### Packing List Generator
 
-- Provide a customizable packing list generator that takes into account 
+- Provide a customizable packing list generator that takes into account
 the user's destination, travel dates, and planned activities
 - Offer the ability to add, remove, or edit items on the packing list
 - Enable users to mark items as packed and track their packing progress
@@ -90,7 +90,7 @@ Once the project is built, you can run the application:
 java -jar target/travelly-*.jar
 ```
 
-###### The application should now be accessible at http://localhost:8080.
+#### [Access the application at](http://localhost:8080)
 
 ### Open Swagger UI
 
