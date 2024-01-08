@@ -139,21 +139,22 @@ jobs:
       - name: Snyk Monitor
         run: snyk auth ${{ secrets.SNYK_TOKEN }} && snyk test --severity-threshold=high
 
-  notify-slack:
-    needs: [ test ] # Add other job dependencies as needed
+  slack-notify:
+    name: Slack Notification
     runs-on: ubuntu-latest
-
     steps:
-      - name: Notify Slack
-        uses: rtCamp/action-slack-notify@v3
+      - uses: actions/checkout@v2
+      - name: Slack Notification
+        uses: rtCamp/action-slack-notify@v2
         env:
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-        with:
-          channel: '#pipelines'
-          text: |
+          SLACK_CHANNEL: pipelines
+          SLACK_ICON: https://github.com/rtCamp.png?size=48
+          SLACK_MESSAGE: |
             Pull Request Status:
             - Git Leaks Check: ${{ job.status.git-leaks-check }}
             - Secrets Scanning: ${{ job.status.secrets-scanning }}
             - Static Code Analysis: ${{ job.status.static-code-analysis }}
             - Dependency Scanning: ${{ job.status.dependency-scanning }}
             - Markdown Files Check: ${{ job.status.markdown-files-check }}
+          SLACK_USERNAME: rtCamp
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
