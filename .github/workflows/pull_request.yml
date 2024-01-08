@@ -23,6 +23,20 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.DEVOPS_GITHUB_TOKEN }}
           GITLEAKS_LICENSE: ${{ secrets.GITLEAKS_LICENSE }}
 
+  codeql-analysis:
+    needs: git-leaks-check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Setup CodeQL
+        uses: github/codeql-action/setup@v2
+
+      - name: Run CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
+
   codestyle-check-java:
     needs: git-leaks-check
     runs-on: ubuntu-latest
