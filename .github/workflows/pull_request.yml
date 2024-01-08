@@ -33,6 +33,8 @@ jobs:
 
       - name: Setup CodeQL
         uses: github/codeql-action/setup@v2
+        with:
+          languages: java
 
       - name: Run CodeQL Analysis
         uses: github/codeql-action/analyze@v2
