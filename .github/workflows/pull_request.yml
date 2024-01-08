@@ -32,12 +32,12 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Setup CodeQL
-        uses: github/codeql-action/setup@v2
+        uses: github/codeql-action/setup@latest
         with:
           languages: java
 
       - name: Run CodeQL Analysis
-        uses: github/codeql-action/analyze@v2
+        uses: github/codeql-action/analyze@latest
 
   codestyle-check-java:
     needs: git-leaks-check
