@@ -9,7 +9,8 @@ jobs:
 
   git-leaks-check:
     runs-on: ubuntu-latest
-
+    outputs:
+      status: ${{ steps.set-status.outputs.status }}
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
@@ -22,6 +23,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.DEVOPS_GITHUB_TOKEN }}
           GITLEAKS_LICENSE: ${{ secrets.GITLEAKS_LICENSE }}
+
+      - name: Set Status
+        id: set-status
+        run: echo "::set-output name=status::${{ job.status }}"
 
   codestyle-check-java:
     needs: git-leaks-check
@@ -140,7 +145,7 @@ jobs:
         run: snyk auth ${{ secrets.SNYK_TOKEN }} && snyk test --severity-threshold=high
 
   slack-notify:
-    needs: [ sonar, snyk-check ]
+    needs: [ git-leaks-check, sonar, snyk-check ]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -151,10 +156,10 @@ jobs:
           SLACK_ICON: https://github.com/rtCamp.png?size=48
           SLACK_MESSAGE: |
             Pull Request Status:
-            - Git Leaks Check: ${{ job.status.git-leaks-check }}
-            - Secrets Scanning: ${{ job.status.secrets-scanning }}
-            - Static Code Analysis: ${{ job.status.static-code-analysis }}
-            - Dependency Scanning: ${{ job.status.dependency-scanning }}
-            - Markdown Files Check: ${{ job.status.markdown-files-check }}
+            - Git Leaks Check: ${{ needs.git-leaks-check.outputs.status }}
+            - Secrets Scanning: ${{ needs.secrets-scanning.outputs.status }}
+            - Static Code Analysis: ${{ needs.static-code-analysis.outputs.status }}
+            - Dependency Scanning: ${{ needs.dependency-scanning.outputs.status }}
+            - Markdown Files Check: ${{ needs.markdown-files-check.outputs.status }}
           SLACK_USERNAME: rtCamp
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
