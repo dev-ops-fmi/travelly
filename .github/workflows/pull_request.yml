@@ -140,7 +140,7 @@ jobs:
         run: snyk auth ${{ secrets.SNYK_TOKEN }} && snyk test --severity-threshold=high
 
   slack-notify:
-    name: Slack Notification
+    needs: [ sonar, snyk-check ]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
