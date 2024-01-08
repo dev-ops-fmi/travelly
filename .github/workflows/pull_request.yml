@@ -9,8 +9,10 @@ jobs:
 
   git-leaks-check:
     runs-on: ubuntu-latest
+
     outputs:
       status: ${{ steps.set-status.outputs.status }}
+
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
@@ -28,9 +30,13 @@ jobs:
         id: set-status
         run: echo "::set-output name=status::${{ job.status }}"
 
+
   codestyle-check-java:
     needs: git-leaks-check
     runs-on: ubuntu-latest
+
+    outputs:
+      status: ${{ steps.set-status.outputs.status }}
 
     steps:
       - name: Checkout Code
@@ -45,9 +51,17 @@ jobs:
       - name: Run Checkstyle
         run: mvn checkstyle:check
 
+      - name: Set Status
+        id: set-status
+        run: echo "::set-output name=status::${{ job.status }}"
+
+
   markdown-files-check:
     needs: git-leaks-check
     runs-on: ubuntu-latest
+
+    outputs:
+      status: ${{ steps.set-status.outputs.status }}
 
     steps:
       - name: Checkout Code
@@ -61,6 +75,11 @@ jobs:
       - name: Install Markdown Lint And Check Markdown Files
         run: npm install -g markdownlint-cli && markdownlint '**/*.md'
 
+      - name: Set Status
+        id: set-status
+        run: echo "::set-output name=status::${{ job.status }}"
+
+
   build:
     needs: [ git-leaks-check, codestyle-check-java]
     runs-on: ubuntu-latest
@@ -68,6 +87,7 @@ jobs:
     outputs:
       id: jar
       settable: true
+      status: ${{ steps.set-status.outputs.status }}
 
     steps:
       - name: Checkout Repository
@@ -84,9 +104,17 @@ jobs:
           mvn clean package
           echo "::set-output name=jar::target/travelly.jar"
 
+      - name: Set Status
+        id: set-status
+        run: echo "::set-output name=status::${{ job.status }}"
+
+
   test:
     needs: build
     runs-on: ubuntu-latest
+
+    outputs:
+      status: ${{ steps.set-status.outputs.status }}
 
     steps:
       - name: Checkout Repository
@@ -106,9 +134,17 @@ jobs:
           # Example: Run JUnit tests
           mvn test
 
+      - name: Set Status
+        id: set-status
+        run: echo "::set-output name=status::${{ job.status }}"
+
+
   sonar:
     needs: test
     runs-on: ubuntu-latest
+
+    outputs:
+      status: ${{ steps.set-status.outputs.status }}
 
     steps:
       - name: Checkout Repository
@@ -125,9 +161,17 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
+      - name: Set Status
+        id: set-status
+        run: echo "::set-output name=status::${{ job.status }}"
+
+
   snyk-check:
     needs: test
     runs-on: ubuntu-latest
+
+    outputs:
+      status: ${{ steps.set-status.outputs.status }}
 
     steps:
       - name: Checkout Code
@@ -144,8 +188,13 @@ jobs:
       - name: Snyk Monitor
         run: snyk auth ${{ secrets.SNYK_TOKEN }} && snyk test --severity-threshold=high
 
+      - name: Set Status
+        id: set-status
+        run: echo "::set-output name=status::${{ job.status }}"
+
+
   slack-notify:
-    needs: [ git-leaks-check, sonar, snyk-check ]
+    needs: [ git-leaks-check, codestyle-check-java, markdown-files-check, build, test, sonar, snyk-check ]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -157,9 +206,11 @@ jobs:
           SLACK_MESSAGE: |
             Pull Request Status:
             - Git Leaks Check: ${{ needs.git-leaks-check.outputs.status }}
-            - Secrets Scanning: ${{ needs.secrets-scanning.outputs.status }}
-            - Static Code Analysis: ${{ needs.static-code-analysis.outputs.status }}
-            - Dependency Scanning: ${{ needs.dependency-scanning.outputs.status }}
+            - Codestyle Check: ${{ needs.codestyle-check-java.outputs.status }}
             - Markdown Files Check: ${{ needs.markdown-files-check.outputs.status }}
+            - Build: ${{ needs.build.outputs.status }}
+            - Tests: ${{ needs.test.outputs.status }}
+            - Static Code Analysis: ${{ needs.sonar.outputs.status }}
+            - Dependency Scanning: ${{ needs.snyk-check.outputs.status }}
           SLACK_USERNAME: rtCamp
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
