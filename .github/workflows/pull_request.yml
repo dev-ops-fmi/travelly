@@ -214,3 +214,4 @@ jobs:
             - Dependency Scanning: ${{ needs.snyk-check.outputs.status }}
           SLACK_USERNAME: rtCamp
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+
