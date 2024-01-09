@@ -241,7 +241,7 @@ jobs:
           # Get the transition ID for the specified transition name
           JIRA_TRANSITION_ID_RESPONSE=$(curl -u "$JIRA_API_USERNAME:$JIRA_API_TOKEN" -X GET -H "Content-Type: application/json" "$JIRA_TRANSITION_URL")
           echo "Jira Transition ID Response: $JIRA_TRANSITION_ID_RESPONSE"
-            JIRA_TRANSITION_ID=$(echo "$JIRA_TRANSITION_ID_RESPONSE" | jq -r --arg name "$JIRA_TRANSITION_NAME" '.transitions[] | select(.name == $name) | .id')
+          JIRA_TRANSITION_ID=$(echo "$JIRA_TRANSITION_ID_RESPONSE" | jq -r --arg name "pr-made" '.transitions[] | select(.name == $name) | .id')
           echo "Jira Transition ID: $JIRA_TRANSITION_ID"
           
           # Make the Jira API request to transition the issue
