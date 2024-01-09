@@ -6,32 +6,211 @@ on:
       - '*'
 
 jobs:
-  build:
+
+  git-leaks-check:
     runs-on: ubuntu-latest
 
+    outputs:
+      status: ${{ steps.set-status.outputs.status }}
+
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
+      - name: Checkout Code
+        uses: actions/checkout@v3
         with:
-          node-version: '14'
+          ref: ${{ github.event.before }}
+          fetch-depth: 0 # Fetch all history for all tags and branches
+
+      - name: Git Leaks Check
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.DEVOPS_GITHUB_TOKEN }}
+          GITLEAKS_LICENSE: ${{ secrets.GITLEAKS_LICENSE }}
+
+      - name: Set Status
+        id: set-status
+        run: echo "::set-output name=status::${{ job.status }}"
+
+
+  codestyle-check-java:
+    needs: git-leaks-check
+    runs-on: ubuntu-latest
+
+    outputs:
+      status: ${{ steps.set-status.outputs.status }}
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
 
       - name: Set Up Java
         uses: actions/setup-java@v2
         with:
           distribution: 'adopt'
           java-version: '17'
-          node-version: '14'
+
+      - name: Run Checkstyle
+        run: mvn checkstyle:check
+
+      - name: Set Status
+        id: set-status
+        run: echo "::set-output name=status::${{ job.status }}"
+
+
+  markdown-files-check:
+    needs: git-leaks-check
+    runs-on: ubuntu-latest
+
+    outputs:
+      status: ${{ steps.set-status.outputs.status }}
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set Up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18' # run on 18 as version 12 is deprecated and version 16 is unsupported for markdownlint-cli
+
+      - name: Install Markdown Lint And Check Markdown Files
+        run: npm install -g markdownlint-cli && markdownlint '**/*.md'
+
+      - name: Set Status
+        id: set-status
+        run: echo "::set-output name=status::${{ job.status }}"
+
+
+  build:
+    needs: [ git-leaks-check, codestyle-check-java]
+    runs-on: ubuntu-latest
+
+    outputs:
+      id: jar
+      settable: true
+      status: ${{ steps.set-status.outputs.status }}
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set Up Java
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: '17'
 
       - name: Build with Maven
-        run: mvn clean package
+        run: |
+          mvn clean package
+          echo "::set-output name=jar::target/travelly.jar"
+
+      - name: Set Status
+        id: set-status
+        run: echo "::set-output name=status::${{ job.status }}"
+
+
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+
+    outputs:
+      status: ${{ steps.set-status.outputs.status }}
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set Up Java
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: '17'
 
       - name: Run Unit and Integration Tests
-        run: mvn test
+        run: |
+          # Use the JAR file produced by the 'build' job
+          echo "Running tests using ${{ needs.build.outputs.jar }}"
+          
+          # Example: Run JUnit tests
+          mvn test
 
-      - name: Checkstyle
-        run: mvn checkstyle:check
+      - name: Set Status
+        id: set-status
+        run: echo "::set-output name=status::${{ job.status }}"
+
+
+  sonar:
+    needs: test
+    runs-on: ubuntu-latest
+
+    outputs:
+      status: ${{ steps.set-status.outputs.status }}
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set Up Java
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: '17'
 
       - name: SonarQube Scan
         run: mvn clean verify sonar:sonar
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+      - name: Set Status
+        id: set-status
+        run: echo "::set-output name=status::${{ job.status }}"
+
+
+  snyk-check:
+    needs: test
+    runs-on: ubuntu-latest
+
+    outputs:
+      status: ${{ steps.set-status.outputs.status }}
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set Up Snyk
+        uses: snyk/actions/setup@master
+
+      - name: Set Up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16' # run on 16 as version 12 is deprecated
+
+      - name: Snyk Monitor
+        run: snyk auth ${{ secrets.SNYK_TOKEN }} && snyk test --severity-threshold=high
+
+      - name: Set Status
+        id: set-status
+        run: echo "::set-output name=status::${{ job.status }}"
+
+
+  slack-notify:
+    needs: [ git-leaks-check, codestyle-check-java, markdown-files-check, build, test, sonar, snyk-check ]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Slack Notification
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_CHANNEL: pipelines
+          SLACK_ICON: https://github.com/rtCamp.png?size=48
+          SLACK_MESSAGE: |
+            Pull Request Status:
+            - Git Leaks Check: ${{ needs.git-leaks-check.outputs.status }}
+            - Codestyle Check: ${{ needs.codestyle-check-java.outputs.status }}
+            - Markdown Files Check: ${{ needs.markdown-files-check.outputs.status }}
+            - Build: ${{ needs.build.outputs.status }}
+            - Tests: ${{ needs.test.outputs.status }}
+            - Static Code Analysis: ${{ needs.sonar.outputs.status }}
+            - Dependency Scanning: ${{ needs.snyk-check.outputs.status }}
+          SLACK_USERNAME: rtCamp
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
