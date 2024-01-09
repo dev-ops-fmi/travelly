@@ -33,6 +33,7 @@ jobs:
 
       - name: Build and push Docker image
         run: |
-          docker build -t ghcr.io/${{ github.repository_owner }}/${{ github.repository_name }}:${{ github.sha }} .
-          docker push ghcr.io/${{ github.repository_owner }}/${{ github.repository_name }}:${{ github.sha }}
+          docker build -t ghcr.io/${{ github.repository_owner }}/$REPO_NAME:${{ github.sha }} .
+          docker push ghcr.io/${{ github.repository_owner }}/$REPO_NAME:${{ github.sha }}
+
 
