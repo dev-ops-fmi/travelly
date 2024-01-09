@@ -216,6 +216,7 @@ jobs:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
 
   jira-transition:
+    needs: [ git-leaks-check, codestyle-check-java, markdown-files-check, build, test, sonar, snyk-check ]
     runs-on: ubuntu-latest
 
     steps:
