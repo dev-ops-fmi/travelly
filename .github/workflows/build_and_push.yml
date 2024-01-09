@@ -19,7 +19,6 @@ jobs:
       - name: Set up environment variables
         run: echo "REPO_NAME=$(basename -s .git `git config --get remote.origin.url`)" >> $GITHUB_ENV
 
-
       - name: Display GitHub context
         run: |
           echo "GitHub Repository: ${{ github.repository }}"
