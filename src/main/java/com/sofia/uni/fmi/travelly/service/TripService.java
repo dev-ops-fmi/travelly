@@ -7,7 +7,6 @@ import com.sofia.uni.fmi.travelly.model.Trip;
 import com.sofia.uni.fmi.travelly.model.User;
 import com.sofia.uni.fmi.travelly.repository.TripRepository;
 import org.springframework.stereotype.Service;
-
 import java.util.HashSet;
 import java.util.Optional;
 

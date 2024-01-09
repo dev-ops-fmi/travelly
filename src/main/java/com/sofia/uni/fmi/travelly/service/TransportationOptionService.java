@@ -10,8 +10,8 @@ import com.sofia.uni.fmi.travelly.repository.TransportationOptionRepository;
 import com.sofia.uni.fmi.travelly.repository.ItineraryRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class TransportationOptionService {
@@ -34,7 +34,6 @@ public class TransportationOptionService {
     public List<TransportationOption> getTransportationOptionsByItineraryId(Long itineraryId) {
         return transportationOptionRepository.findAllByItinerary(itineraryRepository.findById(itineraryId).get());
     }
-
 
     public List<Long> addTransportationOption(
             List<TransportationOptionCreateUpdateDto> transportationOptionCreateUpdateDtoList, Long itineraryId) {

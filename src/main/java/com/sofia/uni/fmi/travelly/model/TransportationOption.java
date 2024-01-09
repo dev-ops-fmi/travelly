@@ -1,11 +1,17 @@
 package com.sofia.uni.fmi.travelly.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.time.LocalDateTime;
 
 @Entity
@@ -13,7 +19,7 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="transportation_options")
+@Table(name = "transportation_options")
 public class TransportationOption {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,7 +27,7 @@ public class TransportationOption {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name="itinerary_id")
+    @JoinColumn(name = "itinerary_id")
     private Itinerary itinerary;
 
     @Column(name = "type")

@@ -3,15 +3,17 @@ package com.sofia.uni.fmi.travelly.service;
 import com.sofia.uni.fmi.travelly.dto.AccommodationCreateUpdateDto;
 import com.sofia.uni.fmi.travelly.mapper.AccommodationMapper;
 import com.sofia.uni.fmi.travelly.model.Accommodation;
-import com.sofia.uni.fmi.travelly.model.Activity;
 import com.sofia.uni.fmi.travelly.model.Itinerary;
 import com.sofia.uni.fmi.travelly.model.Trip;
 import com.sofia.uni.fmi.travelly.repository.AccommodationRepository;
 import com.sofia.uni.fmi.travelly.repository.ItineraryRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -40,7 +42,7 @@ public class AccommodationService {
             List<AccommodationCreateUpdateDto> accommodationCreateUpdateDtoList, Long itineraryId) {
         List<Long> savedAccommodationsIds = new ArrayList<>();
 
-        for(AccommodationCreateUpdateDto accommodationCreateUpdateDto : accommodationCreateUpdateDtoList) {
+        for (AccommodationCreateUpdateDto accommodationCreateUpdateDto : accommodationCreateUpdateDtoList) {
             Accommodation newAccommodation = accommodationMapper.toEntity(accommodationCreateUpdateDto);
             Itinerary itinerary = itineraryRepository.findById(itineraryId).get();
             newAccommodation.setItinerary(itinerary);
@@ -78,7 +80,7 @@ public class AccommodationService {
 
         Set<Accommodation> recommendedAccommodations = new HashSet<>();
         for (String interest : interests) {
-            List <Accommodation> currentRecommendedAccommodations =
+            List<Accommodation> currentRecommendedAccommodations =
                     accommodationRepository.findAccommodationsByCriteria(
                             trip.getBudget(), interest, name, address, city, pricePerNightFrom, pricePerNightTo) ;
             currentRecommendedAccommodations

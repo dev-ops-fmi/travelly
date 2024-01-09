@@ -1,0 +1,37 @@
+name: Build and Push Docker Image on Release
+
+on:
+  release:
+    types:
+      - created
+    branches:
+      - main
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up environment variables
+        run: |
+          echo "REPO_NAME=$(basename -s .git `git config --get remote.origin.url`)" >> $GITHUB_ENV
+          echo "TAG_NAME=${{ github.event.release.tag_name }}" >> $GITHUB_ENV
+
+      - name: Display GitHub context
+        run: |
+          echo "GitHub Repository: ${{ github.repository }}"
+          echo "GitHub Repository Owner: ${{ github.repository_owner }}"
+          echo "GitHub Repository Name: ${{ env.REPO_NAME }}"
+          echo "GitHub SHA: ${{ github.sha }}"
+          echo "Release Tag: ${{ env.TAG_NAME }}"
+
+      - name: Login to GitHub Container Registry
+        run: echo "${{ secrets.GHCR_PAT }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Build and push Docker image with release tag
+        run: |
+          docker build -t ghcr.io/${{ github.repository_owner }}/$REPO_NAME:${{ env.TAG_NAME }} .
+          docker push ghcr.io/${{ github.repository_owner }}/$REPO_NAME:${{ env.TAG_NAME }}
