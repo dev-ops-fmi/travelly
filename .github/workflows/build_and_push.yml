@@ -16,11 +16,16 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      - name: Get Repository Name
+        run: |
+          REPO_NAME=$(basename -s .git `git config --get remote.origin.url`)
+          echo "Repository Name: $REPO_NAME"
+
       - name: Display GitHub context
         run: |
           echo "GitHub Repository: ${{ github.repository }}"
           echo "GitHub Repository Owner: ${{ github.repository_owner }}"
-          echo "GitHub Repository Name: ${{ github.repository_name }}"
+          echo "GitHub Repository Name: $REPO_NAME"
           echo "GitHub SHA: ${{ github.sha }}"
 
       - name: Login to GitHub Container Registry
