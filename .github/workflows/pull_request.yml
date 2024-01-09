@@ -214,3 +214,33 @@ jobs:
             - Dependency Scanning: ${{ needs.snyk-check.outputs.status }}
           SLACK_USERNAME: rtCamp
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+
+  jira-transition:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Jira Transition
+        run: |
+          # Extract Jira issue key from the pull request title
+          JIRA_ISSUE_KEY=$(echo "${{ github.event.pull_request.title }}" | grep -oP 'DEV-\d+')
+          echo "Jira Issue Key: $JIRA_ISSUE_KEY"
+          
+          # Jira Transition URL
+          JIRA_TRANSITION_URL="${{ secrets.JIRA_BASE_URL }}/rest/api/2/issue/${JIRA_ISSUE_KEY}/transitions"
+          
+          # Jira Transition ID for "In Review" status (update this based on your Jira workflow)
+          JIRA_TRANSITION_ID="pr-made"
+          
+          # Jira API Username and Token
+          JIRA_API_USERNAME="${{ secrets.JIRA_USERNAME }}"
+          JIRA_API_TOKEN="${{ secrets.JIRA_API_TOKEN }}"
+          
+          # Make the Jira API request to transition the issue
+          curl -X POST \
+            --url "$JIRA_TRANSITION_URL" \
+            --user "$JIRA_API_USERNAME:$JIRA_API_TOKEN" \
+            --header "Content-Type: application/json" \
+            --data '{"transition": {"id": "'"$JIRA_TRANSITION_ID"'"}}'
