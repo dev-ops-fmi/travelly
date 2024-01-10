@@ -4,60 +4,61 @@
 ## DevOps
 
 ### Pull request workflow (pull_request.yml)
+
 This workflow is run on every pr raised in the repository.
 It looks like this: ![Alt Text](./static/PullRequestWorkflow.png)
 
 It consists of 8 stages as follows:
 
-1. **Git Leaks Check**
+**Git Leaks Check**
 
 - **Technology Used:** Gitleaks
-- **Purpose:** Scans the codebase for sensitive information and 
+- **Purpose:** Scans the codebase for sensitive information and
 potential security risks, preventing unintentional exposure of sensitive data.
 
-2. **Secrets Scanning**
+**Secrets Scanning**
 
 - **Technology Used:** truffleHog
-- **Purpose:** Identifies high-entropy strings indicative of secrets or 
+- **Purpose:** Identifies high-entropy strings indicative of secrets or
 credentials, ensuring that no sensitive information is inadvertently committed.
 
-3. **Markdown Files Check**
+**Markdown Files Check**
 
 - **Technology Used:** Custom Script
 - **Purpose:** Verifies the structure and content of Markdown files,
 ensuring consistent documentation practices.
 
-4. **Build**
+**Build**
 
 - **Technology Used:** Maven (Java)
-- **Purpose:** Compiles and builds the project, ensuring that 
+- **Purpose:** Compiles and builds the project, ensuring that
 the code can be successfully translated into an executable form.
 
-5. **Unit Testing**
+**Unit Testing**
 
 - **Technology Used:** JUnit (Java)
 - **Purpose:** Executes unit tests to validate that individual units
 of code perform as expected, catching errors early in the development process.
 
-6. **Static Code Analysis**
+**Static Code Analysis**
 
 - **Technology Used:** SonarQube
 - **Purpose:** Analyzes the source code for bugs, vulnerabilities,
 and code smells, ensuring code quality and security standards are met.
 
-7. **Dependency Scanning**
+**Dependency Scanning**
 
 - **Technology Used:** Snyk
 - **Purpose:** Checks for known vulnerabilities in project dependencies,
 helping to keep third-party libraries secure.
 
-8. **Slack announcement**
+**Slack announcement**
 
 - **Technology Used:** Slack
-- **Purpose:** Notifies all the stakeholders about 
+- **Purpose:** Notifies all the stakeholders about
 the current stated of the PR in a dedicated channel in Slack.
 
-These stages collectively ensure that each pull request is 
+These stages collectively ensure that each pull request is
 thoroughly examined for security, code quality, and functionality,
 contributing to a robust and reliable codebase.
 
@@ -73,9 +74,9 @@ and moves the status of the issue as follows In Review -> Done.
 
 ### Build and Push Docker Image (build_and_push.yml)
 
-This workflow is manually triggered. 
+This workflow is manually triggered.
 It is building a docker image using the Dockerfile on the root level
-and then uploads the image to GitHub Docker Registry 
+and then uploads the image to GitHub Docker Registry
 on the following address:
 ghcr.io/${{ github.repository_owner }}/${{ github.repo_name }}:${{ github.sha }}
 
