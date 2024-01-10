@@ -10,49 +10,49 @@ It looks like this: ![Alt Text](./static/PullRequestWorkflow.png)
 
 It consists of 8 stages as follows:
 
-**Git Leaks Check**
+#### 1. Git Leaks Check
 
 - **Technology Used:** Gitleaks
 - **Purpose:** Scans the codebase for sensitive information and
 potential security risks, preventing unintentional exposure of sensitive data.
 
-**Secrets Scanning**
+#### 2. Secrets Scanning
 
 - **Technology Used:** truffleHog
 - **Purpose:** Identifies high-entropy strings indicative of secrets or
 credentials, ensuring that no sensitive information is inadvertently committed.
 
-**Markdown Files Check**
+#### 3. Markdown Files Check
 
 - **Technology Used:** Custom Script
 - **Purpose:** Verifies the structure and content of Markdown files,
 ensuring consistent documentation practices.
 
-**Build**
+#### 4. Build
 
 - **Technology Used:** Maven (Java)
 - **Purpose:** Compiles and builds the project, ensuring that
 the code can be successfully translated into an executable form.
 
-**Unit Testing**
+#### 5. Unit Testing
 
 - **Technology Used:** JUnit (Java)
 - **Purpose:** Executes unit tests to validate that individual units
 of code perform as expected, catching errors early in the development process.
 
-**Static Code Analysis**
+#### 6. Static Code Analysis
 
 - **Technology Used:** SonarQube
 - **Purpose:** Analyzes the source code for bugs, vulnerabilities,
 and code smells, ensuring code quality and security standards are met.
 
-**Dependency Scanning**
+#### 7. Dependency Scanning
 
 - **Technology Used:** Snyk
 - **Purpose:** Checks for known vulnerabilities in project dependencies,
 helping to keep third-party libraries secure.
 
-**Slack announcement**
+#### 8. Slack announcement
 
 - **Technology Used:** Slack
 - **Purpose:** Notifies all the stakeholders about
