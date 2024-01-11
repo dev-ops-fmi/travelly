@@ -16,11 +16,7 @@ It consists of 8 stages as follows:
 - **Purpose:** Scans the codebase for sensitive information and
 potential security risks, preventing unintentional exposure of sensitive data.
 
-#### 2. Secrets Scanning
-
-- **Technology Used:** truffleHog
-- **Purpose:** Identifies high-entropy strings indicative of secrets or
-credentials, ensuring that no sensitive information is inadvertently committed.
+#### 2. Codestyle Check
 
 #### 3. Markdown Files Check
 
